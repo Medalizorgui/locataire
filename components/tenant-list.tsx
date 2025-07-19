@@ -19,6 +19,7 @@ interface Tenant {
     month: string
     rentPaid: boolean
   }>
+  idFront?: string // Added for the new image display
 }
 
 interface TenantListProps {
@@ -34,11 +35,25 @@ export default function TenantList({ tenants }: TenantListProps) {
     const rentStatus = currentRecord?.rentPaid
 
     return (
-      <Card className="hover:shadow-md transition-shadow">
+      <Card className="hover:shadow-2xl transition-shadow rounded-2xl overflow-hidden border-2 border-blue-100 bg-white group">
+        <div className="relative w-full h-40 bg-gray-100 flex items-center justify-center">
+          {tenant.idFront ? (
+            <img
+              src={tenant.idFront}
+              alt="ID Front"
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center w-full h-full text-gray-400">
+              <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V8.25A2.25 2.25 0 0 1 5.25 6h13.5A2.25 2.25 0 0 1 21 8.25v8.25M3 16.5A2.25 2.25 0 0 0 5.25 18.75h13.5A2.25 2.25 0 0 0 21 16.5M3 16.5l4.5-4.5a2.25 2.25 0 0 1 3.182 0l.568.568a2.25 2.25 0 0 0 3.182 0l2.068-2.068a2.25 2.25 0 0 1 3.182 0L21 13.5"/></svg>
+              <span className="text-xs mt-2">Aucune image</span>
+            </div>
+          )}
+        </div>
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle className="text-lg">{tenant.name}</CardTitle>
+              <CardTitle className="text-lg text-blue-900 group-hover:text-blue-700 transition-colors">{tenant.name}</CardTitle>
               <CardDescription>{tenant.property}</CardDescription>
             </div>
             <div className="text-right">

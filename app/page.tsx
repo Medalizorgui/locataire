@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/app/hooks/use-toast"
 import type { Chambre, Month } from "@/types"
 import { Modal } from "@/components/ui/modal"
+import { useRouter } from "next/navigation"
 
 type NewChambre = {
   name: string
@@ -34,6 +35,7 @@ type NewMonth = {
 
 export default function RentalManagement() {
   const { toast } = useToast()
+  const router = useRouter()
   const [showAddForm, setShowAddForm] = useState(false)
   const [selectedChambre, setSelectedChambre] = useState<number | null>(null)
   const [chambres, setChambres] = useState<Chambre[]>([])
@@ -563,13 +565,25 @@ export default function RentalManagement() {
                   .reduce((sum, month) => sum + month.montantEau + month.montantElectricite + month.fraisLouer, 0)
 
                 return (
-                  <Card key={chambre.id} className="hover:shadow-md transition-shadow">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{chambre.name}</CardTitle>
-                      <p className="text-gray-600">{chambre.description}</p>
-                      <p className="text-gray-600">{chambre.property}</p>
-                      <p className="text-gray-600">Locataire: {chambre.tenantName}</p>
-                      <p className="text-gray-600">Téléphone: {chambre.tenantPhone}</p>
+                  <Card key={chambre.id} className="hover:shadow-2xl transition-shadow rounded-2xl overflow-hidden border-2 border-blue-100 bg-white group">
+                    <div className="relative w-full h-44 bg-gray-100 flex items-center justify-center">
+                      {chambre.tenantIdFront ? (
+                        <img
+                          src={chambre.tenantIdFront}
+                          alt="ID Front"
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center w-full h-full text-gray-400">
+                          <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V8.25A2.25 2.25 0 0 1 5.25 6h13.5A2.25 2.25 0 0 1 21 8.25v8.25M3 16.5A2.25 2.25 0 0 0 5.25 18.75h13.5A2.25 2.25 0 0 0 21 16.5M3 16.5l4.5-4.5a2.25 2.25 0 0 1 3.182 0l.568.568a2.25 2.25 0 0 0 3.182 0l2.068-2.068a2.25 2.25 0 0 1 3.182 0L21 13.5"/></svg>
+                          <span className="text-xs mt-2">Aucune image</span>
+                        </div>
+                      )}
+                    </div>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg font-semibold text-blue-900 truncate max-w-[70%] group-hover:text-blue-700 transition-colors">{chambre.name}</CardTitle>
+                      <p className="text-gray-600 text-sm mt-1 truncate">{chambre.description}</p>
+                      <p className="text-gray-500 text-xs truncate">{chambre.property}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2 text-sm">
@@ -599,12 +613,12 @@ export default function RentalManagement() {
                           </>
                         )}
                       </div>
-                      <Button onClick={() => setSelectedChambre(chambre.id)} className="w-full mt-4 text-lg px-6 py-3" variant="outline">
+                      <Button onClick={() => router.push(`/chambres/${chambre.id}`)} className="w-full mt-4 text-lg px-6 py-3 rounded-lg" variant="outline">
                         <Eye className="w-4 h-4 mr-2" />
                         Voir Détails
                       </Button>
-                      <Button onClick={() => setEditChambre(chambre)} className="ml-2" size="sm">Modifier</Button>
-                      <Button onClick={() => deleteChambre(chambre.id)} className="w-full mt-4 text-lg px-6 py-3" variant="outline">
+                      <Button onClick={() => setEditChambre(chambre)} className="ml-2 mt-2" size="sm" variant="secondary">Modifier</Button>
+                      <Button onClick={() => deleteChambre(chambre.id)} className="w-full mt-2 text-lg px-6 py-3 rounded-lg" variant="outline">
                         <X className="w-4 h-4 mr-2" />
                         Supprimer Chambre
                       </Button>
