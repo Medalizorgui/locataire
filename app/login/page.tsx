@@ -6,11 +6,11 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const form = e.target;
+    const form = e.target as HTMLFormElement;
     const res = await signIn('credentials', {
       redirect: false,
       username: form.username.value,

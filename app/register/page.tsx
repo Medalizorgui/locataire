@@ -1,17 +1,30 @@
 "use client";
-import { useState } from 'react';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from 'react';
 
 export default function RegisterPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.replace("/login");
+    }
+  }, [status, session, router]);
+
+  if (status === "loading" || !session) return null;
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
     setSuccess('');
     setLoading(true);
-    const form = e.target;
+    const form = e.target as HTMLFormElement;
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
