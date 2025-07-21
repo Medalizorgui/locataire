@@ -25,6 +25,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
   const [form, setForm] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     async function fetchChambre() {
@@ -90,6 +91,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
       });
       return;
     }
+    setSubmitLoading(true);
     const payload = {
       name: form.name,
       property: form.property,
@@ -105,6 +107,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    setSubmitLoading(false);
     if (res.ok) {
       toast({ title: "Succès", description: "Chambre modifiée avec succès!" });
       // Force reload to ensure fresh data
@@ -288,8 +291,10 @@ export default function EditChambreClient({ params }: { params: { id: string } }
                   )}
                 </div>
               </div>
-              <div className="flex flex-wrap gap-4">
-                <Button type="submit" className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">Enregistrer les Modifications</Button>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <Button type="submit" className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" disabled={submitLoading}>
+                  {submitLoading ? "Enregistrement..." : "Enregistrer les Modifications"}
+                </Button>
                 <Button type="button" onClick={() => router.push(`/chambres/${chambre.id}`)} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" variant="outline">Annuler</Button>
               </div>
             </form>

@@ -62,6 +62,10 @@ export default function DashboardClient() {
   })
   const [editChambre, setEditChambre] = useState<Chambre | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [addChambreLoading, setAddChambreLoading] = useState(false);
+  const [addMonthLoading, setAddMonthLoading] = useState(false);
+  const [togglePaymentLoading, setTogglePaymentLoading] = useState<{[key:string]:boolean}>({});
+  const [editChambreLoading, setEditChambreLoading] = useState(false);
 
   useEffect(() => {
     fetchChambres()
@@ -95,11 +99,13 @@ export default function DashboardClient() {
       })
       return
     }
+    setAddChambreLoading(true);
     const res = await fetch("/api/chambres", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newChambre),
     })
+    setAddChambreLoading(false);
     if (res.ok) {
       fetchChambres()
       setNewChambre({
@@ -135,6 +141,7 @@ export default function DashboardClient() {
       })
       return
     }
+    setAddMonthLoading(true);
     const res = await fetch(`/api/chambres/${chambreId}/months`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -148,6 +155,7 @@ export default function DashboardClient() {
         paye: newMonth.paye,
       }),
     })
+    setAddMonthLoading(false);
     if (res.ok) {
       fetchChambres()
       setNewMonth({
@@ -167,6 +175,7 @@ export default function DashboardClient() {
 
   const togglePayment = async (chambre: Chambre, monthIndex: number) => {
     const month = chambre.months[monthIndex]
+    setTogglePaymentLoading((prev) => ({ ...prev, [month.id]: true }));
     const res = await fetch(`/api/chambres/${chambre.id}/months/${month.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -175,6 +184,7 @@ export default function DashboardClient() {
         paye: !month.paye,
       }),
     })
+    setTogglePaymentLoading((prev) => ({ ...prev, [month.id]: false }));
     if (res.ok) {
       await fetchChambres()
       toast({ title: "Succès", description: "Statut de paiement mis à jour!" })
@@ -375,8 +385,9 @@ export default function DashboardClient() {
               <Button
                 onClick={() => addMonth(chambre.id)}
                 className="mt-4 text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3"
+                disabled={addMonthLoading}
               >
-                Ajouter le Mois
+                {addMonthLoading ? "Ajout..." : "Ajouter le Mois"}
               </Button>
             </CardContent>
           </Card>
@@ -393,9 +404,9 @@ export default function DashboardClient() {
                 <div className="space-y-4">
                   {chambre.months.map((month, index) => (
                     <div key={month.id} className="border rounded p-4">
-                      <div className="flex flex-wrap justify-between items-center gap-2 mb-3">
+                      <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between items-center gap-2 mb-3">
                         <h4 className="font-semibold text-lg">{month.month}</h4>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
                           <Badge variant={month.paye ? "default" : "destructive"} className="text-sm">
                             {month.paye ? "Payé" : "Non Payé"}
                           </Badge>
@@ -403,9 +414,10 @@ export default function DashboardClient() {
                             size="sm"
                             variant="outline"
                             onClick={() => togglePayment(chambre, index)}
-                            className="ml-2 text-sm sm:text-base px-3 py-1 sm:px-4 sm:py-2"
+                            className="ml-0 sm:ml-2 text-sm sm:text-base px-3 py-1 sm:px-4 sm:py-2 w-full sm:w-auto"
+                            disabled={togglePaymentLoading[month.id]}
                           >
-                            {month.paye ? "Marquer Non Payé" : "Marquer Payé"}
+                            {togglePaymentLoading[month.id] ? "..." : (month.paye ? "Marquer Non Payé" : "Marquer Payé")}
                           </Button>
                         </div>
                       </div>
@@ -533,7 +545,9 @@ export default function DashboardClient() {
                   <ImageUpload type="tenantContract" title="Contrat" value={newChambre.tenantContract} />
                 </div>
 
-                <Button onClick={addChambre} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">Ajouter la Chambre</Button>
+                <Button onClick={addChambre} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" disabled={addChambreLoading}>
+                  {addChambreLoading ? "Ajout..." : "Ajouter la Chambre"}
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -682,12 +696,14 @@ export default function DashboardClient() {
 
           <div className="flex gap-4 mt-4">
             <Button onClick={async () => {
+              setEditChambreLoading(true);
               if (!editChambre) return;
               const res = await fetch(`/api/chambres/${editChambre.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(editChambre),
               });
+              setEditChambreLoading(false);
               if (res.ok) {
                 await fetchChambres();
                 setEditChambre(null);
@@ -695,7 +711,9 @@ export default function DashboardClient() {
               } else {
                 toast({ title: "Erreur", description: "Erreur lors de la modification de la chambre", variant: "destructive" });
               }
-            }} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">Enregistrer les Modifications</Button>
+            }} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" disabled={editChambreLoading}>
+              {editChambreLoading ? "Enregistrement..." : "Enregistrer les Modifications"}
+            </Button>
             <Button onClick={() => setEditChambre(null)} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" variant="outline">Annuler</Button>
           </div>
         </div>
