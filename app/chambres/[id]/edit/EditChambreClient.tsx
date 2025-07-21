@@ -120,18 +120,18 @@ export default function EditChambreClient({ params }: { params: { id: string } }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 sm:p-6 md:p-8">
       <div className="max-w-3xl mx-auto">
         <Button variant="outline" onClick={() => router.back()} className="mb-4">
           Retour
         </Button>
         <Card className="shadow-xl border-2 border-blue-100">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-blue-900">Modifier Chambre</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-blue-900">Modifier Chambre</CardTitle>
           </CardHeader>
           <CardContent>
             <form className="space-y-8" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div>
                   <Label className="text-blue-800">Nom *</Label>
                   <Input
@@ -162,7 +162,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div>
                   <Label className="text-blue-800">Nom du Locataire</Label>
                   <Input
@@ -182,7 +182,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
                   />
                 </div>
                 {/* Image Uploads */}
-                <div>
+                <div className="sm:col-span-2 md:col-span-1">
                   <Label>Pièce d'identité (Recto)</Label>
                   {form.tenantIdFront ? (
                     <div className="relative">
@@ -217,7 +217,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
                     </label>
                   )}
                 </div>
-                <div>
+                <div className="sm:col-span-2 md:col-span-1">
                   <Label>Pièce d'identité (Verso)</Label>
                   {form.tenantIdBack ? (
                     <div className="relative">
@@ -252,7 +252,7 @@ export default function EditChambreClient({ params }: { params: { id: string } }
                     </label>
                   )}
                 </div>
-                <div>
+                <div className="sm:col-span-2 md:col-span-1">
                   <Label>Contrat</Label>
                   {form.tenantContract ? (
                     <div className="relative">
@@ -288,8 +288,10 @@ export default function EditChambreClient({ params }: { params: { id: string } }
                   )}
                 </div>
               </div>
-              <Button type="submit" className="text-lg px-6 py-3">Enregistrer les Modifications</Button>
-              <Button type="button" onClick={() => router.push(`/chambres/${chambre.id}`)} className="text-lg px-6 py-3" variant="outline">Annuler</Button>
+              <div className="flex flex-wrap gap-4">
+                <Button type="submit" className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">Enregistrer les Modifications</Button>
+                <Button type="button" onClick={() => router.push(`/chambres/${chambre.id}`)} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" variant="outline">Annuler</Button>
+              </div>
             </form>
           </CardContent>
         </Card>

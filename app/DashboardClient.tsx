@@ -244,20 +244,20 @@ export default function DashboardClient() {
     if (!chambre) return null
 
     return (
-      <div className="min-h-screen bg-gray-50 p-10">
+      <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-10">
         <div className="max-w-screen-2xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <Button onClick={() => setSelectedChambre(null)} className="mb-4 text-lg px-6 py-3">
+          <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+            <div className="flex-grow">
+              <Button onClick={() => setSelectedChambre(null)} className="mb-4 text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">
                 ← Retour
               </Button>
-              <h1 className="text-2xl font-bold">{chambre.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-bold">{chambre.name}</h1>
               <p className="text-gray-600">{chambre.description}</p>
               <p className="text-gray-600">{chambre.property}</p>
               <p className="text-gray-600">Locataire: {chambre.tenantName}</p>
               <p className="text-gray-600">Téléphone: {chambre.tenantPhone}</p>
             </div>
-            <Button onClick={() => router.push(`/chambres/${chambre.id}/edit`)} className="text-lg px-6 py-3" variant="outline">Modifier</Button>
+            <Button onClick={() => router.push(`/chambres/${chambre.id}/edit`)} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" variant="outline">Modifier</Button>
           </div>
 
           {/* Documents */}
@@ -266,7 +266,7 @@ export default function DashboardClient() {
               <CardTitle>Documents</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <div>
                   <h4 className="font-semibold mb-2">Pièce d'identité (Recto)</h4>
                   <img
@@ -304,7 +304,7 @@ export default function DashboardClient() {
               <CardTitle>Ajouter un Mois</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 items-end">
                 <div>
                   <Label>Mois</Label>
                   <Input
@@ -361,23 +361,20 @@ export default function DashboardClient() {
                     placeholder="150.00"
                   />
                 </div>
-                <div>
-                  <Label>Statut</Label>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <input
-                      type="checkbox"
-                      id="paye"
-                      checked={newMonth.paye}
-                      onChange={(e) => setNewMonth({ ...newMonth, paye: e.target.checked })}
-                      className="rounded"
-                    />
-                    <Label htmlFor="paye">Payé</Label>
-                  </div>
+                <div className="flex items-center space-x-2 pb-2">
+                  <input
+                    type="checkbox"
+                    id="paye"
+                    checked={newMonth.paye}
+                    onChange={(e) => setNewMonth({ ...newMonth, paye: e.target.checked })}
+                    className="rounded h-4 w-4"
+                  />
+                  <Label htmlFor="paye">Payé</Label>
                 </div>
               </div>
               <Button
                 onClick={() => addMonth(chambre.id)}
-                className="mt-4 text-lg px-6 py-3"
+                className="mt-4 text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3"
               >
                 Ajouter le Mois
               </Button>
@@ -396,7 +393,7 @@ export default function DashboardClient() {
                 <div className="space-y-4">
                   {chambre.months.map((month, index) => (
                     <div key={month.id} className="border rounded p-4">
-                      <div className="flex justify-between items-center mb-3">
+                      <div className="flex flex-wrap justify-between items-center gap-2 mb-3">
                         <h4 className="font-semibold text-lg">{month.month}</h4>
                         <div className="flex items-center gap-2">
                           <Badge variant={month.paye ? "default" : "destructive"} className="text-sm">
@@ -406,14 +403,14 @@ export default function DashboardClient() {
                             size="sm"
                             variant="outline"
                             onClick={() => togglePayment(chambre, index)}
-                            className="ml-2 text-base px-4 py-2"
+                            className="ml-2 text-sm sm:text-base px-3 py-1 sm:px-4 sm:py-2"
                           >
                             {month.paye ? "Marquer Non Payé" : "Marquer Payé"}
                           </Button>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {/* Eau */}
                         <div className="bg-blue-50 p-3 rounded">
                           <h5 className="font-semibold text-blue-800 mb-2">💧 Eau</h5>
@@ -462,18 +459,18 @@ export default function DashboardClient() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-10">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-10">
       <div className="max-w-screen-xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Gestion des Chambres</h1>
-          <div className="flex gap-2">
-            <Button onClick={() => router.push('/register')} className="text-lg px-6 py-3" variant="secondary">
+        <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold flex-grow">Gestion des Chambres</h1>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={() => router.push('/register')} className="text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3" variant="secondary">
               Créer un nouvel utilisateur
             </Button>
-            <Button onClick={() => signOut({ callbackUrl: '/login' })} className="text-lg px-6 py-3" variant="destructive">
+            <Button onClick={() => signOut({ callbackUrl: '/login' })} className="text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3" variant="destructive">
               Se déconnecter
             </Button>
-            <Button onClick={() => setShowAddForm(!showAddForm)} className="text-lg px-6 py-3">
+            <Button onClick={() => setShowAddForm(!showAddForm)} className="text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
               <Plus className="w-4 h-4 mr-2" />
               {showAddForm ? "Annuler" : "Ajouter Chambre"}
             </Button>
@@ -514,7 +511,7 @@ export default function DashboardClient() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div>
                     <Label>Nom du Locataire</Label>
                     <Input
@@ -536,7 +533,7 @@ export default function DashboardClient() {
                   <ImageUpload type="tenantContract" title="Contrat" value={newChambre.tenantContract} />
                 </div>
 
-                <Button onClick={addChambre} className="text-lg px-6 py-3">Ajouter la Chambre</Button>
+                <Button onClick={addChambre} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">Ajouter la Chambre</Button>
               </div>
             </CardContent>
           </Card>
@@ -609,15 +606,17 @@ export default function DashboardClient() {
                           </>
                         )}
                       </div>
-                      <Button onClick={() => router.push(`/chambres/${chambre.id}`)} className="w-full mt-4 text-lg px-6 py-3 rounded-lg" variant="outline">
+                      <Button onClick={() => router.push(`/chambres/${chambre.id}`)} className="w-full mt-4 text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3 rounded-lg" variant="outline">
                         <Eye className="w-4 h-4 mr-2" />
                         Voir Détails
                       </Button>
-                      <Button onClick={() => router.push(`/chambres/${chambre.id}/edit`)} className="ml-2 mt-2" size="sm" variant="secondary">Modifier</Button>
-                      <Button onClick={() => deleteChambre(chambre.id)} className="w-full mt-2 text-lg px-6 py-3 rounded-lg" variant="outline">
-                        <X className="w-4 h-4 mr-2" />
-                        Supprimer Chambre
-                      </Button>
+                      <div className="flex gap-2 mt-2">
+                        <Button onClick={() => router.push(`/chambres/${chambre.id}/edit`)} className="flex-1" size="sm" variant="secondary">Modifier</Button>
+                        <Button onClick={() => deleteChambre(chambre.id)} className="flex-1" size="sm" variant="destructive">
+                          <X className="w-4 h-4 mr-2" />
+                          Supprimer
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 )
@@ -681,22 +680,24 @@ export default function DashboardClient() {
             <ImageUpload type="tenantContract" title="Contrat" value={editChambre?.tenantContract ?? null} onChange={v => setEditChambre(editChambre ? { ...editChambre, tenantContract: v } : null)} />
           </div>
 
-          <Button onClick={async () => {
-            if (!editChambre) return;
-            const res = await fetch(`/api/chambres/${editChambre.id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(editChambre),
-            });
-            if (res.ok) {
-              await fetchChambres();
-              setEditChambre(null);
-              toast({ title: "Succès", description: "Chambre modifiée avec succès!" });
-            } else {
-              toast({ title: "Erreur", description: "Erreur lors de la modification de la chambre", variant: "destructive" });
-            }
-          }} className="text-lg px-6 py-3">Enregistrer les Modifications</Button>
-          <Button onClick={() => setEditChambre(null)} className="text-lg px-6 py-3" variant="outline">Annuler</Button>
+          <div className="flex gap-4 mt-4">
+            <Button onClick={async () => {
+              if (!editChambre) return;
+              const res = await fetch(`/api/chambres/${editChambre.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(editChambre),
+              });
+              if (res.ok) {
+                await fetchChambres();
+                setEditChambre(null);
+                toast({ title: "Succès", description: "Chambre modifiée avec succès!" });
+              } else {
+                toast({ title: "Erreur", description: "Erreur lors de la modification de la chambre", variant: "destructive" });
+              }
+            }} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3">Enregistrer les Modifications</Button>
+            <Button onClick={() => setEditChambre(null)} className="text-base sm:text-lg px-4 py-2 sm:px-6 sm:py-3" variant="outline">Annuler</Button>
+          </div>
         </div>
       </Modal>
 

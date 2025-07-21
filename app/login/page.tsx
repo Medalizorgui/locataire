@@ -22,8 +22,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 p-4">
+      <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-sm space-y-6">
         <h1 className="text-2xl font-bold text-center text-blue-900 mb-4">Connexion</h1>
         <div>
           <label className="block mb-1 font-medium text-blue-800">Nom d'utilisateur</label>
