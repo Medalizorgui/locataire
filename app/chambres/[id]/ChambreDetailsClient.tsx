@@ -188,17 +188,17 @@ const MonthCard = ({
 }) => {
   return (
     <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-center mb-3">
-        <h4 className="font-semibold text-lg">{month.month}</h4>
-        <div className="flex items-center gap-2">
-          <Badge variant={month.paye ? "default" : "destructive"}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3 w-full">
+        <h4 className="font-semibold text-lg w-full sm:w-auto">{month.month}</h4>
+        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+          <Badge variant={month.paye ? "default" : "destructive"} className="w-full sm:w-auto text-center">
             {month.paye ? "Payé" : "Non Payé"}
           </Badge>
           <Button
             size="sm"
             variant="outline"
             onClick={() => onTogglePayment(month)}
-            className="text-sm"
+            className="w-full sm:w-auto text-sm"
           >
             {month.paye ? "Marquer Non Payé" : "Marquer Payé"}
           </Button>
@@ -206,7 +206,7 @@ const MonthCard = ({
             size="sm"
             variant="destructive"
             onClick={() => onDelete(month.id)}
-            className="text-sm"
+            className="w-full sm:w-auto text-sm"
           >
             Supprimer
           </Button>
