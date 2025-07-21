@@ -404,10 +404,10 @@ export default function DashboardClient() {
                 <div className="space-y-4">
                   {chambre.months.map((month, index) => (
                     <div key={month.id} className="border rounded p-4">
-                      <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between items-center gap-2 mb-3">
-                        <h4 className="font-semibold text-lg">{month.month}</h4>
+                      <div className="flex flex-col sm:flex-row sm:flex-wrap sm:justify-between sm:items-center gap-2 mb-3 w-full">
+                        <h4 className="font-semibold text-lg w-full sm:w-auto">{month.month}</h4>
                         <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
-                          <Badge variant={month.paye ? "default" : "destructive"} className="text-sm">
+                          <Badge variant={month.paye ? "default" : "destructive"} className="text-sm w-full sm:w-auto text-center">
                             {month.paye ? "Payé" : "Non Payé"}
                           </Badge>
                           <Button
